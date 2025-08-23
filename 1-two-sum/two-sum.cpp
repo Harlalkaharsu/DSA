@@ -16,7 +16,6 @@ public:
                 return {i, numMap[complement]};
             }
         }
-
         return {}; // No solution found
     }
 };
