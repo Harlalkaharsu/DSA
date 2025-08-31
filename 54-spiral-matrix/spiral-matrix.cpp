@@ -1,28 +1,36 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int rows = matrix.size();
-        int cols = matrix[0].size();
-        int x = 0;
-        int y = 0;
-        int dx = 1;
-        int dy = 0;
-        vector<int> res;
-
-        for (int i = 0; i < rows * cols; i++) {
-            res.push_back(matrix[y][x]);
-            matrix[y][x] = -101;
-
-            if (!(0 <= x + dx && x + dx < cols && 0 <= y + dy && y + dy < rows) || matrix[y+dy][x+dx] == -101) {
-                int temp = dx;
-                dx = -dy;
-                dy = temp;
+        int n = matrix.size();
+        int m = matrix[0].size();
+        vector<int> arr;
+        int top = 0, left = 0, right = m-1, bottom = n-1;
+        
+        while(left <= right && top <= bottom){
+            for(int i = left; i<= right; i++){
+                arr.push_back(matrix[top][i]);
             }
-
-            x += dx;
-            y += dy;
+            top++;
+            
+            for(int i = top ; i <= bottom; i++){
+                arr.push_back(matrix[i][right]);
+            }
+            right--;
+            
+            if(top <= bottom){
+                    for(int i = right; i>=left; i--){
+                    arr.push_back(matrix[bottom][i]);
+                }
+                bottom--;
+            }
+            
+            if(left<= right){
+                for(int i = bottom; i >= top ; i--){
+                    arr.push_back(matrix[i][left]);
+                }
+                left++;
+            }
         }
-
-        return res;
-    }        
+        return arr;
+    }
 };
