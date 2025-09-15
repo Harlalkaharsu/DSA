@@ -1,39 +1,37 @@
 class Solution {
-public:
-    int getCnt(vector<int>& weights,int mid){
-        int cnt=1;
-        int sum=0;
-        for(int i=0;i<weights.size();i++){
-            if (weights[i]>mid)return INT_MAX;
-            if (sum+weights[i]>mid) {
-                cnt++;
-                sum=0;
-            }
-            sum +=weights[i];
+private:
+    int findDays(vector<int> &arr, int cap) {
+    int days = 1; //First day.
+    int load = 0;
+    int n = arr.size(); //size of array.
+    for (int i = 0; i < n; i++) {
+        if (load + arr[i] > cap) {
+            days += 1; //move to next day
+            load = arr[i]; //load the weight.
         }
-        return cnt;//return number of days for that max weight
+        else {
+            //load the weight on the same day.
+            load += arr[i];
+        }
     }
-
-
-    int shipWithinDays(vector<int>& weights, int days) {
-        int n=weights.size();
-        int sum=0;
-        for(int i=0;i<n;i++){
-            sum+=weights[i];
+    return days;
+}
+public:
+    int shipWithinDays(vector<int>& arr, int days) {
+    int low = *max_element(arr.begin(), arr.end());
+    int high = accumulate(arr.begin(), arr.end(), 0);
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        int numberOfDays = findDays(arr, mid);
+        if (numberOfDays <= days) {
+            //eliminate right half
+            high = mid - 1;
         }
-        int s=1,e=sum;
-        int ans=INT_MAX;
-        while(s<=e){
-            int mid=s+(e-s)/2;
-            int cnt=getCnt(weights,mid);
-            if(cnt<=days){
-                ans=min(ans,mid);
-                e=mid-1;
-            }
-            else{
-                s=mid+1;
-            }
+        else {
+            //eliminate left half
+            low = mid + 1;
         }
-        return ans;
+    }
+    return low;
     }
 };
