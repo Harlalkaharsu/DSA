@@ -1,62 +1,88 @@
-struct Node {
-    int shop, movie, price;
-    bool operator<(const Node& other) const {
-        if (price != other.price) return price < other.price;
-        if (shop != other.shop) return shop < other.shop;
-        return movie < other.movie;
-    }
-};
+#include <vector>
+#include <map>
+#include <set>
+#include <tuple>
+#include <algorithm>
+
+using namespace std;
 
 class MovieRentingSystem {
-    unordered_map<long long, Node> byPair;
-    unordered_map<int, set<Node>> availableByMovie;
-    set<Node> rentedSet;
+private:
+    // Maps movie ID to a sorted set of {price, shop} pairs for available movies.
+    map<int, set<pair<int, int>>> available_movies;
 
-    long long key(int shop, int movie) {
-        return ((long long)shop << 32) ^ movie;
-    }
+    // A sorted set of {price, shop, movie} tuples for all rented movies.
+    set<tuple<int, int, int>> rented_movies;
+
+    // Maps {shop, movie} pair to its price for quick lookups.
+    map<pair<int, int>, int> prices;
 
 public:
+    /**
+     * @brief Initializes the system with shops and movie entries.
+     */
     MovieRentingSystem(int n, vector<vector<int>>& entries) {
-        for (auto& e : entries) {
-            int shop = e[0], movie = e[1], price = e[2];
-            Node node{shop, movie, price};
-            byPair[key(shop, movie)] = node;
-            availableByMovie[movie].insert(node);
+        for (const auto& entry : entries) {
+            int shop = entry[0];
+            int movie = entry[1];
+            int price = entry[2];
+
+            prices[{shop, movie}] = price;
+            available_movies[movie].insert({price, shop});
         }
     }
 
+    /**
+     * @brief Finds the cheapest 5 shops for an unrented movie.
+     */
     vector<int> search(int movie) {
-        vector<int> res;
-        if (availableByMovie.count(movie) == 0) return res;
-        auto& s = availableByMovie[movie];
-        int count = 0;
-        for (auto it = s.begin(); it != s.end() && count < 5; ++it, ++count) {
-            res.push_back(it->shop);
+        vector<int> result;
+        if (available_movies.count(movie)) {
+            auto& shops = available_movies.at(movie);
+            int count = 0;
+            for (const auto& p : shops) {
+                if (count >= 5) break;
+                result.push_back(p.second); // p.second is shop_id
+                count++;
+            }
         }
-        return res;
+        return result;
     }
 
+    /**
+     * @brief Rents a movie from a specific shop.
+     */
     void rent(int shop, int movie) {
-        long long k = key(shop, movie);
-        Node node = byPair[k];
-        availableByMovie[movie].erase(node);
-        rentedSet.insert(node);
+        int price = prices.at({shop, movie});
+        
+        // Move from available to rented
+        available_movies.at(movie).erase({price, shop});
+        rented_movies.insert({price, shop, movie});
     }
 
+    /**
+     * @brief Drops off a rented movie at a shop.
+     */
     void drop(int shop, int movie) {
-        long long k = key(shop, movie);
-        Node node = byPair[k];
-        rentedSet.erase(node);
-        availableByMovie[movie].insert(node);
+        int price = prices.at({shop, movie});
+
+        // Move from rented back to available
+        rented_movies.erase({price, shop, movie});
+        available_movies.at(movie).insert({price, shop});
     }
 
+    /**
+     * @brief Reports the cheapest 5 rented movies.
+     */
     vector<vector<int>> report() {
-        vector<vector<int>> res;
+        vector<vector<int>> result;
         int count = 0;
-        for (auto it = rentedSet.begin(); it != rentedSet.end() && count < 5; ++it, ++count) {
-            res.push_back({it->shop, it->movie});
+        for (const auto& t : rented_movies) {
+            if (count >= 5) break;
+            // Report contains {shop, movie}
+            result.push_back({get<1>(t), get<2>(t)});
+            count++;
         }
-        return res;
+        return result;
     }
 };
