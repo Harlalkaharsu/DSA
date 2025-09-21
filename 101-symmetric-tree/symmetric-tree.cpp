@@ -18,6 +18,7 @@ public:
     bool ismirror(TreeNode* left, TreeNode* right){
         if(!left && !right) return true;
         if(!left || !right) return false;
-        return (left->val == right->val) && ismirror(left->left,right->right) && ismirror       (right->left,left->right);
+        return (left->val == right->val) && ismirror(left->left,right->right) 
+        && ismirror(right->left,left->right);
     }
 };
