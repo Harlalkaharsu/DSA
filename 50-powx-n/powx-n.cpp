@@ -1,23 +1,23 @@
 class Solution {
 public:
     double myPow(double x, int n) {
-        if(n < 0) {
-            x = 1 / x;
-        } 
-        
-        long num = labs(n);
-        
-        double pow = 1;
-        
-        while(num){ // equivalent to while(num != 0)
-            if(num & 1) { // equivalent to if((num & 1) != 0)
-                pow *= x;
-            }
-            
-            x *= x;
-            num >>= 1;
+        return binaryExp(x, static_cast<long>(n));
+    }
+
+private:
+    double binaryExp(double x, long n) {
+        if (n == 0) {
+            return 1;
         }
-        
-        return pow;
+       
+        if (n < 0) {
+            return 1.0 / binaryExp(x, -n);
+        }
+       
+        if (n % 2 == 1) {
+            return x * binaryExp(x * x, (n - 1) / 2);
+        } else {
+            return binaryExp(x * x, n / 2);
+        }
     }
 };
