@@ -1,23 +1,23 @@
 class Solution {
 public:
-    long long helper(long long base, long long expo, long long mod) {
-        long long ans = 1;
-        while (expo > 0) {
-            if (expo % 2 == 0) {
-                base = (base * base) % mod;
-                expo = expo / 2;
-            } else {
-                ans = (ans * base) % mod;
-                expo -= 1;
-            }
+    const int mod = 1e9+7; 
+    long long solve(long long x, long long n)
+    {
+        if(n == 0) return 1;
+        if(n%2 == 0)  //if power is even
+        {
+            return solve((x*x)%mod, n/2);
         }
-        return ans;
+        else   //if power if odd
+        {
+            return (x*solve(x, n-1))%mod;
+        }  
     }
-
-    int countGoodNumbers(long long n) {
-        long long even = (n + 1) / 2;
-        long long odd = n / 2;
-        long long mod = 1e9 + 7;
-        return (int)((helper(5, even, mod) * helper(4, odd, mod)) % mod);
+    int countGoodNumbers(long long n) 
+    {
+        long long even = (n+1)/2; 
+        long long odd = n/2;      
+        long long ans = (solve(5,even)*solve(4,odd)) % mod;
+        return ans;
     }
 };
