@@ -2,22 +2,20 @@ class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
-        vector<int>index;
-        combo(ans,target,index,0,0,candidates);
+        vector<int> index;
+        create(candidates, ans, index, target, 0, 0 );
         return ans;
     }
-private:
-    void combo(vector<vector<int>>&ans, int target,vector<int>&index, int idx, int total, vector<int>&candidates){
+    void create(vector<int>& candidates,vector<vector<int>>& ans,vector<int>& index,int target, int total , int idx ){
         if(total == target){
             ans.push_back(index);
             return;
         }
-        if (total > target || idx >= candidates.size()) {
-            return;
-        }
+        if(total > target || idx >= candidates.size())return;
+
         index.push_back(candidates[idx]);
-        combo(ans,target,index,idx,total + candidates[idx],candidates);
+        create(candidates, ans, index, target, total+candidates[idx], idx);
         index.pop_back();
-        combo(ans,target,index,idx+1,total,candidates);
+        create(candidates, ans, index, target, total, idx+1);
     }
 };
