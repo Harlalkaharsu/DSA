@@ -1,31 +1,24 @@
 class Solution {
- public:
-  bool wordBreak(string s, vector<string>& wordDict) {
-    const int n = s.length();
-    const int maxLength = getMaxLength(wordDict);
-    const unordered_set<string> wordSet{begin(wordDict), end(wordDict)};
-    vector<int> dp(n + 1);
-    dp[0] = true;
-
-    for (int i = 1; i <= n; ++i)
-      for (int j = i - 1; j >= 0; --j) {
-        if (i - j > maxLength)
-          break;
-        if (dp[j] && wordSet.count(s.substr(j, i - j))) {
-          dp[i] = true;
-          break;
+private:
+    bool wordBreak(string s, unordered_set<string> &set, vector<int> &memo, int start){
+        if(start == s.size()){
+            return true;
         }
-      }
-
-    return dp[n];
-  }
-
- private:
-  int getMaxLength(const vector<string>& wordDict) {
-    return max_element(begin(wordDict), end(wordDict),
-                       [](const auto& a, const auto& b) {
-                         return a.length() < b.length();
-                       })
-        ->length();
-  }
+        if(memo[start] != -1){
+            return memo[start];
+        }
+        for(int i=start; i<s.size(); i++){
+            if(set.count(s.substr(start, i+1-start)) && wordBreak(s, set, memo, i+1)){
+                memo[start] = true;
+                return true;
+            }
+        }
+        return memo[start] = false;
+    }
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        vector<int> memo(s.size(), -1);
+        unordered_set<string> set(wordDict.begin(), wordDict.end());
+        return wordBreak(s, set, memo, 0);
+    }
 };
