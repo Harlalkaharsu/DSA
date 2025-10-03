@@ -13,7 +13,7 @@ public:
                 ans.push_back(path);
                 return;
             }
-        } 
+        }    
         string currStr;
         long num=0;
         // backtracking loop
@@ -29,11 +29,7 @@ public:
                 helper(s,target,j+1,path + "+" + currStr, eval + num, num);
                 helper(s,target,j+1,path + "-" + currStr, eval - num, -num);
                 helper(s,target,j+1,path + "*" + currStr, eval -residual + residual*num , residual*num);
-
-
             }
         }
-        
-        
     }
 };
