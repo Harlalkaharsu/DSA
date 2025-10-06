@@ -1,27 +1,24 @@
 class Solution {
 public:
-    bool issubsequence(string s, string t){
-        int l=0, r=0;
-        int n=s.size(), m=t.size();
-        while(l<n && r<m){
-            if(s[l] == t[r]) r++;l++;
+    
+    bool help(string& s, string t){
+        int i = 0, j = 0, n = s.size(), m = t.size();
+
+        while(i<n and j<m){
+            if(s[i] == t[j]) j++;
+            i++;
         }
-        return r==m;
+
+        return j >= m;
     }
+
     int numMatchingSubseq(string s, vector<string>& words) {
-        int count =0;
-        unordered_map<string,int> mp;
-        for(string str:words){
-            if(mp[str] == 2) {
-                count++;
-                continue;
-            }
-            else if(mp[str] == 1) continue;
-            else mp[str]=1;
-            if(issubsequence(s,str)) {
-                mp[str] = 2;
-                count++;}
-        }
-        return count;
+        int ans = 0;
+        unordered_map<string, int> mp;
+        for(auto i : words) mp[i]++;
+
+        for(auto i : mp) if(help(s, i.first)) ans += i.second;
+
+        return ans;   
     }
 };
