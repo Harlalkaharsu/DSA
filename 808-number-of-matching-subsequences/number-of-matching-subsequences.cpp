@@ -2,14 +2,14 @@ class Solution {
 public:
     bool issubsequence(string s, string t){
         int l=0, r=0;
-        int n =s.size(), m = t.size();
-        while(l < n && r <m){
+        int n=s.size(), m=t.size();
+        while(l<n && r<m){
             if(s[l] == t[r]) r++;l++;
         }
         return r==m;
     }
     int numMatchingSubseq(string s, vector<string>& words) {
-        int count = 0;
+        int count =0;
         unordered_map<string,int> mp;
         for(string str:words){
             if(mp[str] == 2) {
