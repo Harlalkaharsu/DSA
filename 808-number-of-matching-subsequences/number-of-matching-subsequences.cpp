@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    bool help(string& s, string t){
+    bool issubsequence(string& s, string t){
         int i = 0, j = 0, n = s.size(), m = t.size();
 
         while(i<n and j<m){
@@ -17,7 +17,7 @@ public:
         unordered_map<string, int> mp;
         for(auto i : words) mp[i]++;
 
-        for(auto i : mp) if(help(s, i.first)) ans += i.second;
+        for(auto i : mp) if(issubsequence(s, i.first)) ans += i.second;
 
         return ans;   
     }
