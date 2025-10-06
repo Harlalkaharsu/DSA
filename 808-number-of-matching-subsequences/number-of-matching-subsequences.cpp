@@ -1,6 +1,6 @@
 class Solution {
 public:
-    
+
     bool issubsequence(string& s, string t){
         int i = 0, j = 0, n = s.size(), m = t.size();
 
@@ -9,7 +9,7 @@ public:
             i++;
         }
 
-        return j >= m;
+        return j == m;
     }
 
     int numMatchingSubseq(string s, vector<string>& words) {
@@ -19,6 +19,6 @@ public:
 
         for(auto i : mp) if(issubsequence(s, i.first)) ans += i.second;
 
-        return ans;   
+        return ans;  
     }
 };
