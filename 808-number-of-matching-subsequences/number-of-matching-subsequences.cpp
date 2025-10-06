@@ -9,7 +9,7 @@ public:
             i++;
         }
 
-        return j == m;
+        return j >= m;
     }
 
     int numMatchingSubseq(string s, vector<string>& words) {
