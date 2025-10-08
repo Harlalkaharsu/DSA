@@ -9,7 +9,7 @@ public:
             while(i < path.size() && path[i] != '/'){
                 // add path to temp string
                 temp += path[i];
-                i++;
+                ++i;
             }
             if(temp == ".") continue;
 			// pop the top element from stack if exists
