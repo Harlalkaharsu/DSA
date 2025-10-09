@@ -1,27 +1,27 @@
 class Solution {
 public:
     int numFriendRequests(vector<int>& ages) {
-        vector<int> count(121, 0);
-        for (int age : ages)
-            count[age]++;
-
-        vector<int> prefix(121, 0);
-        for (int i = 1; i <= 120; i++)
-            prefix[i] = prefix[i - 1] + count[i];
-
+        sort(ages.begin(), ages.end());
+        int n = ages.size();
         int ans = 0;
-        for (int ageA = 15; ageA <= 120; ageA++) { // below 15 no requests possible
-            if (count[ageA] == 0) continue;
 
-            int minAge = ageA / 2 + 7;
+        int left = 0, right = 0;
 
-            // valid range: (minAge, ageA]
-            int total = prefix[ageA] - prefix[minAge];
+        for (int i = 0; i < n; i++) {
+            int age = ages[i];
+            if (age < 15) continue;  // below 15 can't send requests
 
-            // subtract self
-            total -= 1;
+            // move left pointer until it satisfies: ages[left] > 0.5 * age + 7
+            while (left < n && ages[left] <= 0.5 * age + 7)
+                left++;
 
-            ans += count[ageA] * total;
+            // move right pointer while next person is still <= age
+            while (right + 1 < n && ages[right + 1] <= age)
+                right++;
+
+            // count how many are in (left, right]
+            ans += right - left;
+
         }
 
         return ans;
