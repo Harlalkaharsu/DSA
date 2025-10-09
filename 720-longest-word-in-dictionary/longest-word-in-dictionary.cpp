@@ -7,7 +7,7 @@ public:
         }
 
         string ans = "";
-        for(auto const& x : words){
+        for(auto x : words){
             if(x.size() > ans.size() || (x.size() == ans.size() && x < ans)){
                 bool found = true;
                 for(int i = 1; i < x.size(); i++){
