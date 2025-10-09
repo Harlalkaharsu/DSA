@@ -1,21 +1,26 @@
 class Solution {
 public:
     string longestWord(vector<string>& words) {
-        sort(words.begin(), words.end());
-        unordered_map<string, bool> canBuild;
-        string res = "";
+        unordered_set<string> seen;
+        for(auto const& word : words){
+            seen.insert(word);
+        }
 
-        for (auto &w : words) {
-            if (w.size() == 1 || canBuild[w.substr(0, w.size() - 1)]) {
-                canBuild[w] = true;
-                if (w.size() > res.size()) {
-                    res = w;
+        string ans = "";
+        for(auto x : words){
+            if(x.size() > ans.size() || (x.size() == ans.size() && x < ans)){
+                bool found = true;
+                for(int i = 1; i < x.size(); i++){
+                    if(seen.count(x.substr(0, i)) == 0){
+                        found = false;
+                    }
                 }
-            } else {
-                canBuild[w] = false;
+                if(found){                
+                    ans = x;
+                }
             }
         }
 
-        return res;
+        return ans;
     }
 };
