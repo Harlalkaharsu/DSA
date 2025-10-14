@@ -9,12 +9,12 @@ public:
                 if (score < 0) 
                     senate.push_back('D');
                 
-                score++;
+                ++score;
             } else {
                 if (score > 0) 
                     senate.push_back('R');
                 
-                score--;
+                --score;
             }
         }
         return score > 0 ? "Radiant" : "Dire";
