@@ -8,7 +8,7 @@ public:
         for(int i=0; i<quality.size(); i++) {
             ratio.push_back({(double)wage[i]/quality[i], i});
         }
-        sort(ratio.begin(),ratio.end());
+        sort(ratio.begin(),ratio.end()); //sort wage to quality ratio in ascending order
 
          for(int i=0; i<wage.size(); i++) {
             int index = ratio[i].second;
