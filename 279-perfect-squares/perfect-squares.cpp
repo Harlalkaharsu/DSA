@@ -1,18 +1,24 @@
 class Solution {
 public:
-    vector<int> dp;
-    int solve(int n){
-        if(n <= 0) return 0;
-        if(dp[n] != -1) return dp[n];
-        int ans = n;
-        for(int i =1; i*i <= n; i++){
-            int square = i *i;
-            ans = min(ans, 1+ solve(n-square));
+    void solve(int n, int sq, int cnt, int& ans) {
+        if(n == 0) {
+            ans = min(ans, cnt);
+            return;
         }
-        return dp[n] = ans;
+        if((cnt >= ans) || (sq <= 0) || (n < 0)) return;
+
+        // pick
+        int square = sq*sq;
+        solve(n-square, sq, cnt+1, ans);
+
+        // not pick
+        solve(n, sq-1, cnt, ans);
+        
     }
     int numSquares(int n) {
-        dp = vector<int>(n+1, -1);
-        return solve(n);
+        int flr = floor(sqrt(n));
+        int ans = n;
+        solve(n, flr, 0, ans);
+        return ans;
     }
 };
