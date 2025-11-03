@@ -16,7 +16,7 @@ public:
         
     }
     int numSquares(int n) {
-        int flr = floor(sqrt(n));
+        int flr = (sqrt(n));
         int ans = n;
         solve(n, flr, 0, ans);
         return ans;
