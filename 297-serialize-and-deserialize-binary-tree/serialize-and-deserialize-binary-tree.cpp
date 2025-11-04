@@ -12,8 +12,8 @@ public:
 //
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        if(!root) return "";
         string s = "";
+        if(!root) return s;
         queue<TreeNode*>q;
         q.push(root);
         while(!q.empty()){
