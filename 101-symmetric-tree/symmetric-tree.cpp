@@ -19,6 +19,6 @@ public:
         if(!left && !right) return true;
         if(!left || !right) return false;
         return (left->val == right->val) && ismirror(left->left,right->right) 
-        && ismirror(right->left,left->right);
+        && ismirror(left->right,right->left);
     }
 };
