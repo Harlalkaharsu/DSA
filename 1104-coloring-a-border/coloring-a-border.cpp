@@ -10,8 +10,8 @@ public:
     }
     vector<vector<int>> colorBorder(vector<vector<int>>& grid, int row, int col, int color) {
         vector<vector<int>> res = grid;
-        dfs(grid , row , col , grid[row][col]);
         int m = grid.size(), n = grid[0].size();
+        dfs(grid , row , col , grid[row][col]);
         for(int i = 0; i < m; ++i){
             for(int j = 0; j < n; ++j){
                 if(grid[i][j] < 0){
