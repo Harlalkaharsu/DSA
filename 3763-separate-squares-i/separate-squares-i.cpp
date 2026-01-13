@@ -19,7 +19,7 @@ public:
 
         // Perform Binary Search on the y-coordinate range
         // 100 iterations provide high precision (approx 10^-30)
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 50; ++i) {
             double mid = (low + high) / 2.0;
             if (areaBelow(mid, squares) < target) {
                 low = mid;
