@@ -1,25 +1,18 @@
 class Solution {
 public:
     bool isTrionic(vector<int>& nums) {
-        int n = nums.size(), peak = n - 1, valley = 0;
-
-        for (int i = 0; i < n - 1; i++) {
-            if (peak == n - 1 && nums[i] >= nums[i + 1])
-                peak = i;
-            if (valley == 0 && nums[n - 1 - i] <= nums[n - 2 - i])
-                valley = n - 1 - i;
-            if (peak < valley)
-                return isDecreasing(nums, peak, valley);
-        }
-
-        return false;
-    }
-
-    bool isDecreasing(vector<int>& A, int a, int b) {
-        if (a == 0 || b == A.size() - 1) return false;
-        for (int i = a; i < b; i++)
-            if (A[i] <= A[i + 1]) return false;
+        int n = nums.size(), i = 0;
+        // Phase 1: Up
+        while (i + 1 < n && nums[i] < nums[i + 1]) i++;
+        if (i == 0 || i == n - 1) return false;
         
-        return true;
+        int p = i;
+        // Phase 2: Down
+        while (i + 1 < n && nums[i] > nums[i + 1]) i++;
+        if (i == p || i == n - 1) return false;
+        
+        // Phase 3: Up
+        while (i + 1 < n && nums[i] < nums[i + 1]) i++;
+        return i == n - 1;
     }
 };
