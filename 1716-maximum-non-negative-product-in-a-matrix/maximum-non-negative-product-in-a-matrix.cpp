@@ -21,10 +21,10 @@ public:
             for(int j =1; j<m; j++){
                 long val = grid[i][j];
 
-                long a = maxpro[i-1][j] * val;
-                long b = minpro[i-1][j] * val;
-                long c = maxpro[i][j-1] * val;
-                long d = minpro[i][j-1] * val;
+                long long a = maxpro[i-1][j] * val;
+                long long b = minpro[i-1][j] * val;
+                long long c = maxpro[i][j-1] * val;
+                long long d = minpro[i][j-1] * val;
 
                 maxpro[i][j] = max({a,b,c,d});
                 minpro[i][j] = min({a,b,c,d});
