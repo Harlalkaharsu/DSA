@@ -1,22 +1,27 @@
 class Solution {
 public:
     bool isGood(vector<int>& nums) {
-        int n = nums.size() - 1;
-        bitset<201> seen;
-        bool dup = 0;
+        int n = *max_element(nums.begin(), nums.end());
 
-        for (auto& num : nums) {
-            if (num > n) return false;
+        // size must be n + 1
+        if(nums.size() != n + 1)
+            return false;
 
-            if (seen.test(num)) {
-                if (num < n || dup) return false;
-                dup |= 1;
-                continue;
-            }
+        vector<int> freq(n + 1, 0);
 
-            seen.set(num);
+        for(int x : nums) {
+            // invalid number
+            if(x < 1 || x > n)
+                return false;
+            freq[x]++;
         }
 
-        return true;
+        // 1 to n-1 should appear once
+        for(int i = 1; i < n; i++) {
+            if(freq[i] != 1)
+                return false;
+        }
+        // n should appear twice
+        return freq[n] == 2;
     }
 };
