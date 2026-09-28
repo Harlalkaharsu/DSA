@@ -18,7 +18,7 @@ public:
         sort(houses.begin(), houses.end());
         sort(heaters.begin(), heaters.end());
 
-        int ans=0;
+        int ans=-1;
         int left =0, right =1e9, mid;
         while(left <=right){
             mid = (left+right)/2;
