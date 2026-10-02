@@ -23,9 +23,5 @@ void recursion(string &s, int n, int open, int close, vector<string> &ans)
         string s ="";
         recursion(s,n,0,0,ans);
         return ans;
-
-
-        return ans;
-
     }
 };
