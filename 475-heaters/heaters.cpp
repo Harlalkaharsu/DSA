@@ -1,32 +1,30 @@
 class Solution {
 public:
-
-    int exsist(int r,int n,int m,vector<int>& houses, vector<int>& heaters){
-        int i=0,j=0;
-        while(i<n && j<m){
-            if(abs(houses[i]-heaters[j])<=r) i++;
-            else
-            j++;
-            if(j==m) return false;
+    int findRadius(std::vector<int>& houses, std::vector<int>& heaters) {
+        // Sort both arrays to allow sequential traversal
+        std::sort(houses.begin(), houses.end());
+        std::sort(heaters.begin(), heaters.end());
+       
+        int max_radius = 0;
+        int heater_idx = 0;
+        int num_heaters = heaters.size();
+       
+        // Iterate through each house
+        for (int house : houses) {
+            // Move the heater pointer forward if the NEXT heater
+            // is closer to the current house than the CURRENT heater
+            while (heater_idx + 1 < num_heaters &&
+                   std::abs(heaters[heater_idx + 1] - house) <= std::abs(heaters[heater_idx] - house)) {
+                heater_idx++;
+            }
+           
+            // Calculate the distance from the house to its closest heater
+            int current_dist = std::abs(heaters[heater_idx] - house);
+           
+            // Track the maximum radius needed to cover all houses
+            max_radius = std::max(max_radius, current_dist);
         }
-        return i==n;
-    }
-
-    int findRadius(vector<int>& houses, vector<int>& heaters) {
-        int n= houses.size(), m = heaters.size();
-
-        sort(houses.begin(), houses.end());
-        sort(heaters.begin(), heaters.end());
-
-        int ans=-1;
-        int left =0, right =1e9, mid;
-        while(left <=right){
-            mid = (left+right)/2;
-            if(exsist(mid,n, m,houses, heaters)) {
-                ans =mid;
-                right = mid-1;
-            }else left = mid +1;
-        }
-        return ans;
+       
+        return max_radius;
     }
 };
