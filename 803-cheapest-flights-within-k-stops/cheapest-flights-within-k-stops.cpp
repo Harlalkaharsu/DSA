@@ -27,7 +27,9 @@ public:
                 int adjNode = iter.first;
                 int currentprice = iter.second; 
 
+                // Check if we found a cheaper path within stop limit
                 if(cost + currentprice < dist[adjNode] && stops <= k) {
+                    // Update distance and add to queue
                     dist[adjNode] = cost + currentprice;
                     q.push({stops + 1, {adjNode, cost + currentprice}});
                 }
