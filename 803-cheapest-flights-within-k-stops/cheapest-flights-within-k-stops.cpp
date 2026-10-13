@@ -25,11 +25,11 @@ public:
             // Explore all neighbors
             for(auto iter: adj[node]) {
                 int adjNode = iter.first;
-                int edW = iter.second; // price
+                int currentprice = iter.second; 
 
-                if(cost + edW < dist[adjNode] && stops <= k) {
-                    dist[adjNode] = cost + edW;
-                    q.push({stops + 1, {adjNode, cost + edW}});
+                if(cost + currentprice < dist[adjNode] && stops <= k) {
+                    dist[adjNode] = cost + currentprice;
+                    q.push({stops + 1, {adjNode, cost + currentprice}});
                 }
             }
         }
