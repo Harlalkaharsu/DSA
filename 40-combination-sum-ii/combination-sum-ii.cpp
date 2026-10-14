@@ -1,29 +1,27 @@
 class Solution {
 public:
-    void backtrack(vector<int>& candidates, vector<vector<int>>& res, vector<int>& combi,
-                   int target, int sum, int index, int n) {
-        if (sum == target) {
-            res.push_back(combi);
+    void problem(int ind, int target, vector<int>& nums,
+                 vector<int>& temp, vector<vector<int>>& ans, int n) {
+        if(target == 0) {
+            ans.push_back(temp);
             return;
         }
-        if (sum > target) return;
-
-        for (int i = index; i < n; i++) {
-            // Skip duplicates
-            if (i > index && candidates[i] == candidates[i - 1]) continue;
-
-            combi.push_back(candidates[i]);
-            backtrack(candidates, res, combi, target, sum + candidates[i], i + 1, n);
-            combi.pop_back(); // backtrack
+        for(int i = ind; i < n; i++) {
+            // Skip duplicates at the same recursion level
+            if(i > ind && nums[i] == nums[i - 1]) continue;
+            if(nums[i] > target) break;
+            temp.push_back(nums[i]);
+            problem(i + 1, target - nums[i], nums, temp, ans, n);
+            // Backtrack
+            temp.pop_back();
         }
     }
-
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-        vector<vector<int>> res;
-        vector<int> combi;
+        vector<int> temp;
+        vector<vector<int>> ans;
         int n = candidates.size();
         sort(candidates.begin(), candidates.end());
-        backtrack(candidates, res, combi, target, 0, 0, n);
-        return res;
+        problem(0, target, candidates, temp, ans, n);
+        return ans;
     }
 };
