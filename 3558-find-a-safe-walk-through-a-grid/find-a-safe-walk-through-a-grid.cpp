@@ -3,7 +3,7 @@ public:
     bool findSafeWalk(vector<vector<int>>& grid, int health) {
         int n = grid.size(), m= grid[0].size();
         int current_health = health - grid[0][0];
-        if(current_health < 1) return false;
+        // if(current_health < 1) return false;
 
         vector<vector<bool>> vis(n , vector<bool>(n, false));
         priority_queue<tuple<int, int, int>> pq;
